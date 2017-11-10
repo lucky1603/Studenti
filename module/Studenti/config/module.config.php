@@ -1,0 +1,52 @@
+<?php
+namespace Studenti;
+
+use Zend\ServiceManager\Factory\InvokableFactory;
+use Studenti\Controller\StudentsController;
+use Zend\Router\Http\Segment;
+use Studenti\Controller\SubjectsController;
+
+return [
+    'controllers' => [
+        'factories' => [
+            
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'studenti' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/students[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => StudentsController::class,
+                        'action' => 'index',
+                    ]
+                ]
+            ],
+            'predmeti' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/subjects[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => SubjectsController::class,
+                        'action' => 'index',
+                    ]
+                ]
+            ]
+        ]
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
+            'studenti' => __DIR__ . '/../view',
+        ],
+    ],
+];

@@ -1,0 +1,36 @@
+<?php
+$title = "Spisak studenata";
+$this->headtitle($title);
+$count = $students->count();
+?>
+
+<h1><?php echo $this->escapehtml($title) ?></h1>
+
+<?php if($count == 0): ?>
+<p>Još uvek nema unesenih studenata. Da li biste možda uneli jednog ili više njih?</p>
+<?php else: ?>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Student</th>
+			<th>Broj indeksa</th>
+			<th>E-Mail</th>
+			<th>Slika</th>
+			<th>Akcija</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($students as $student): ?>
+	<tr>
+		<td><?php echo $student->ime ?> <?php echo $student->prezime ?></td>
+		<td><?php echo $student->broj_indeksa ?></td>
+		<td><?php echo $student->email ?></td>
+		<td><img src="<?php echo $student->image ?>" width="100" height="auto" /></td>
+		<td><a href="<?php echo $this->url('studenti', ['action' => 'edit', 'id' => $student->id]) ?>">Promeni</a> | 
+		<a id="delete" href="<?php echo $this->url('studenti', ['action' => 'delete', 'id' => $student->id]) ?>">Izbrisi</a></td>
+	</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>
+<?php endif; ?>
+<p><a class="btn btn-primary" href="<?php echo $this->url('studenti', ['action' => 'add'])?>">Dodaj novog studenta</a></p>
