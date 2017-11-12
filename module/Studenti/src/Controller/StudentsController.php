@@ -37,6 +37,7 @@ class StudentsController extends AbstractActionController
         
         $student = new Student();
         $data = $request->getPost();
+            
         $file = $this->params()->fromFiles('image');
         $data['image']  = '/img/studenti/'.$file['name'];
         
@@ -59,6 +60,8 @@ class StudentsController extends AbstractActionController
     
     public function editAction()
     {
+        
+        
         $imgDir = getcwd() . '/public';
         
         $form = new StudentsForm();
@@ -67,6 +70,7 @@ class StudentsController extends AbstractActionController
         $id = (int) $this->params()->fromRoute('id', 0);
         if(0 == $id)
         {
+            die('redirected to add');
             return $this->redirect()->toRoute('studenti', ['action' => 'add']);
         }
         
@@ -77,19 +81,22 @@ class StudentsController extends AbstractActionController
         }
         
         $photo = $student->image;
-        $form->bind($student);
+        $form->bind($student);        
         $request = $this->getRequest();
-        $data = $request->getPost();
-        $file = $this->params()->fromFiles('image');
-        $data['image']  = '/img/studenti/'.$file['name'];
-        
-        
         $viewData = ['id' => $id, 'form' => $form, 'photo' => $photo];
         $viewModel = new ViewModel($viewData);
         $viewModel->setTemplate('/studenti/students/add');
         if(! $request->isPost())
         {
             return $viewModel;
+        }
+                
+        $data = $request->getPost();
+               
+        $file = $this->params()->fromFiles('image');
+        if(! empty($file['name']) && $file['name'] != "")
+        {
+            $data['image']  = '/img/studenti/'.$file['name'];
         }
         
         $form->setData($request->getPost());
@@ -98,8 +105,10 @@ class StudentsController extends AbstractActionController
             return $viewModel;
         }
         
-        copy($file['tmp_name'], $imgDir.$data['image']);
-        
+        if(! empty($file['name']) && $file['name'] != null) {
+            copy($file['tmp_name'], $imgDir.$data['image']);
+        }
+                
         $table->saveStudent($student);
         
         return $this->redirect()->toRoute('studenti');

@@ -30,7 +30,7 @@ $this->headtitle($title);
     $submit->setAttribute('class', 'btn btn-primary');
     
     if($id != NULL)
-        $form->setAttribute('action', $this->url('studenti', ['action' => 'edit']));
+        $form->setAttribute('action', $this->url('studenti', ['action' => 'edit', 'id' => $id]));
     else 
         $form->setAttribute('action', $this->url('studenti', ['action' => 'add']));
     
@@ -95,6 +95,9 @@ $this->headtitle($title);
 
 <?php 
     echo $this->formSubmit($submit);
+?>
+<a href="<?php echo $this->url('predmeti')?>" class="btn btn-default" style="margin-left: 20px">Nazad</a>
+<?php 
     echo $this->form()->closeTag();    
 ?>
 
