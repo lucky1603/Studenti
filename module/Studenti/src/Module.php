@@ -12,6 +12,8 @@ use Studenti\Controller\SubjectsController;
 use Studenti\Model\Student;
 use Studenti\Model\StudentsTable;
 use Studenti\Controller\StudentsController;
+use Studenti\Model\Kurs;
+use Studenti\Model\KursTabela;
 
 class Module implements ConfigProviderInterface
 {
@@ -40,10 +42,20 @@ class Module implements ConfigProviderInterface
                     $resultSetPrototype->setArrayObjectPrototype(new Student());
                     return new TableGateway('studenti', $dbAdapter, null, $resultSetPrototype);
                 },
+                Model\KursTableGateway::class => function($sm) {
+                    $dbAdapter = $sm->get(AdapterInterface::class);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Kurs());
+                    return new TableGateway('kursevi', $dbAdapter, null, $resultSetPrototype);
+                },
                 StudentsTable::class => function($sm) {
                     $tableGateway = $sm->get(Model\StudentsTableGateway::class);
                     return new StudentsTable($tableGateway);
                 },
+                KursTabela::class => function($sm) {
+                    $tableGateway = $sm->get(Model\KursTableGateway::class);
+                    return new KursTabela($tableGateway);
+                }
                 
             ]  
         ];
