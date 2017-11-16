@@ -52,5 +52,22 @@ class StudentModel
         $kursTabela = $this->serviceManager->get(KursTabela::class);
         $this->kursevi = $kursTabela->fetchForStudent($id);
     }
+    
+    public function save()
+    {
+        $studentsTable = $this->serviceManager->get(StudentsTable::class);
+        $student_id = $studentsTable->saveStudent($this->student);
+        if(isset($this->kursevi) && count($this->kursevi) > 0)
+        {
+            $kurseviTabela = $this->serviceManager->get(KursTabela::class);
+            $kursevi = $kurseviTabela->fetchForStudent($student_id);
+            $kursevi = $kursevi->toArray();
+            
+            foreach($this->kursevi as $kurs)
+            {
+                
+            }
+        }
+    }
 }
 
