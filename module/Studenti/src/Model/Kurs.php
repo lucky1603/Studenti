@@ -21,6 +21,11 @@ class Kurs
     public $poeni_zbir;
     public $ocena;
     public $napomene;
+    public $imePredmeta;
+    public $imeProfesora;
+    public $imeStudenta;
+    public $prezimeStudenta;
+    public $brojIndeksa;
     
     public function exchangeArray($data)
     {
@@ -41,6 +46,13 @@ class Kurs
         $this->poeni_zbir = isset($data['poeni_zbir']) ? $data['poeni_zbir'] : null;
         $this->ocena = isset($data['ocena']) ? $data['ocena'] : null;
         $this->napomene = isset($data['napomene']) ? $data['napomene'] : null;
+        $this->imePredmeta = isset($data['imePredmeta']) ? $data['napomene'] : null;
+        $this->napomene = isset($data['napomene']) ? $data['napomene'] : null;
+        $this->imePredmeta = isset($data['imePredmeta']) ? $data['imePredmeta'] : null;
+        $this->imeProfesora = isset($data['imeProfesora']) ? $data['imeProfesora'] : null;
+        $this->imeStudenta = isset($data['imeStudenta']) ? $data['imeStudenta'] : null;
+        $this->prezimeStudenta = isset($data['prezimeStudenta']) ? $data['prezimeStudenta'] : null;
+        $this->brojIndeksa = isset($data['brojIndeksa']) ? $data['brojIndeksa'] : null;
     }
     
     public function getArrayCopy()
@@ -62,7 +74,12 @@ class Kurs
             'poeni_ukupno_do_usmenog' => $this->poeni_ukupno_do_usmenog,
             'poeni_zbir' => $this->poeni_zbir,
             'ocena' => $this->ocena,
-            'napomene' => $this->napomene,            
+            'napomene' => $this->napomene,       
+            'imePredmeta' => $this->imePredmeta,
+            'imeProfesora' => $this->imeProfesora,
+            'imeStudenta' => $this->imeStudenta,
+            'prezimeStudenta' => $this->prezimeStudenta,
+            'brojIndeksa' => $this->brojIndeksa,
         ];
     }
 }

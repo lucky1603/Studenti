@@ -36,6 +36,7 @@ class SubjectsTable
     {
         $data = [
             'ime' => $subject->ime,
+            'sifra' => $subject->sifra,
             'opis' => $subject->opis,
             'fond_casova' => $subject->fond_casova,
             'profesor' => $subject->profesor,

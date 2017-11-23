@@ -3,13 +3,17 @@ namespace Studenti\Model;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Sql;
 
 class StudentModel
 {
     public $student;
     public $kursevi;
+    
     private $serviceManager;
     private $adapter;
+    private $predmeti;
     
     public function __construct(ServiceManager $manager)
     {
@@ -46,28 +50,58 @@ class StudentModel
     public function setId($id)
     {
         $id = (int)$id;
+        if(0 == $id)
+        {
+            return;
+        }
         
         $studentsTable = $this->serviceManager->get(StudentsTable::class);
         $this->student = $studentsTable->getStudent($id);
-        $kursTabela = $this->serviceManager->get(KursTabela::class);
-        $this->kursevi = $kursTabela->fetchForStudent($id);
+        // $kursTabela = $this->serviceManager->get(KursTabela::class);
+        // $this->kursevi = $kursTabela->fetchForStudent($id);
+        $sql = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->from('kursevi')
+                ->join(['p' => 'predmeti'], 'predmet_id = p.id', ['imePredmeta' => 'ime', 'imeProfesora' => 'profesor'])
+                ->join(['s' => 'studenti'], 'student_id = s.id', ['imeStudenta' => "ime", 'prezimeStudenta' => "prezime"])
+                ->where(['student_id' => $id]);
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $rows = $statement->execute();
+        $this->kursevi = [];
+        foreach($rows as $row)
+        {
+            $kurs = new Kurs();
+            $kurs->exchangeArray($row);
+            $this->kursevi[] = $kurs;
+        }
+        
     }
     
     public function save()
     {
         $studentsTable = $this->serviceManager->get(StudentsTable::class);
         $student_id = $studentsTable->saveStudent($this->student);
-        if(isset($this->kursevi) && count($this->kursevi) > 0)
+        
+        $kurseviTabela = $this->serviceManager->get(KursTabela::class);
+        foreach($this->kursevi as $kurs)
         {
-            $kurseviTabela = $this->serviceManager->get(KursTabela::class);
-            $kursevi = $kurseviTabela->fetchForStudent($student_id);
-            $kursevi = $kursevi->toArray();
-            
-            foreach($this->kursevi as $kurs)
-            {
-                
-            }
+            $kurseviTabela->saveKurs($kurs);
         }
+    }
+    
+    public function delete() {
+        $id = (int) $this->student->id;
+        
+        $studentsTable = $this->serviceManager->get(StudentsTable::class);
+        $studentsTable->deleteStudent($this->student);
+        $kurseviTabela = new TableGateway('kursevi', $this->adapter);
+        $kurseviTabela->delete(['student_id' => $id]);
+        
+        unset($this->student);
+        unset($this->kursevi);
+        
+        $this->student = new Student();
+        $this->kursevi = [];
     }
 }
 

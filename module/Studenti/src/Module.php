@@ -14,6 +14,7 @@ use Studenti\Model\StudentsTable;
 use Studenti\Controller\StudentsController;
 use Studenti\Model\Kurs;
 use Studenti\Model\KursTabela;
+use Studenti\Model\StudentModel;
 
 class Module implements ConfigProviderInterface
 {
@@ -55,7 +56,10 @@ class Module implements ConfigProviderInterface
                 KursTabela::class => function($sm) {
                     $tableGateway = $sm->get(Model\KursTableGateway::class);
                     return new KursTabela($tableGateway);
-                }
+                }, 
+                StudentModel::class => function($sm) {
+                    return new StudentModel($sm);
+                },
                 
             ]  
         ];

@@ -11,6 +11,10 @@ $this->headtitle($title);
 <h1><?php echo $this->escapehtml($title) ?></h1>
 
 <?php 
+    $sifra = $form->get('sifra');
+    $sifra->setAttribute('class', 'form-control');
+    $sifra->setAttribute('placeholder', 'Šifra predmeta ...');
+    
     $ime = $form->get('ime');
     $ime->setAttribute('class', 'form-control');
     $ime->setAttribute('placeholder', 'Ime predmeta ...');
@@ -38,6 +42,13 @@ $this->headtitle($title);
     
     echo $this->form()->openTag($form);
 ?>
+<div class="form-group">
+    <?php echo $this->formLabel($sifra) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($sifra);?>
+        <?php echo $this->formElementErrors()->render($sifra, ['class' => 'help-block']) ?>
+    </div>
+</div>
 
 <div class='form-group'>
     <?php echo $this->formLabel($ime) ?>

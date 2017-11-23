@@ -26,11 +26,11 @@ $count = $students->count();
 		<td><?php echo $student->broj_indeksa ?></td>
 		<td><?php echo $student->email ?></td>
 		<td><img src="<?php echo $student->image ?>" width="100" height="auto" /></td>
-		<td><a href="<?php echo $this->url('studenti', ['action' => 'edit', 'id' => $student->id]) ?>">Promeni</a> | 
+		<td><a href="<?php echo $this->url('studenti', ['action' => 'editWithModel', 'id' => $student->id]) ?>">Promeni</a> | 
 		<a id="delete" href="<?php echo $this->url('studenti', ['action' => 'delete', 'id' => $student->id]) ?>">Izbrisi</a></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>
 </table>
 <?php endif; ?>
-<p><a class="btn btn-primary" href="<?php echo $this->url('studenti', ['action' => 'add'])?>">Dodaj novog studenta</a></p>
+<p><a class="btn btn-primary" href="<?php echo $this->url('studenti', ['action' => 'addWithModel'])?>">Dodaj novog studenta</a></p>

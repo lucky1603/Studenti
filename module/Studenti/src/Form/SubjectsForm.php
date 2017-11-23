@@ -23,6 +23,20 @@ class SubjectsForm extends Form
         
         // Name of the subject/member.
         $this->add([
+            'name' => 'sifra',
+            'type' => 'text',
+            'required' => 'required',
+            'class' => 'form-control',
+            'options' => [
+                'label' => 'Šifra',
+                'label_attributes' => [
+                    'class' => 'control-label col-xs-2',
+                ]
+            ]
+        ]);
+        
+        // Name of the subject/member.
+        $this->add([
             'name' => 'ime',
             'type' => 'text',
             'required' => 'required',
