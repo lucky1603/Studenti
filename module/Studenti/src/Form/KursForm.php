@@ -53,7 +53,7 @@ class KursForm extends Form {
         $selectStudent->setValueOptions($studentOptions);
         $selectStudent->setAttribute('class', 'form-control');
         $selectStudent->setAttribute('id', 'student_id');
-        $this->add($selectStudent);
+        //$this->add($selectStudent);
         
         /* Get all subjects from the subjects table */
         $subjectsTable = $this->serviceManager->get(\Studenti\Model\SubjectsTable::class);
@@ -80,7 +80,6 @@ class KursForm extends Form {
             'name' => 'prisustvo',
             'attributes' => [
                 'type' => 'text',
-                'required' => 'required',
                 'class' => 'form-control',
             ],
             'options' => [
@@ -96,7 +95,6 @@ class KursForm extends Form {
             'name' => 'broj_casova',
             'attributes' => [
                 'type' => 'text',
-                'required' => 'required',
                 'class' => 'form-control',
             ],
             'options' => [
@@ -111,8 +109,7 @@ class KursForm extends Form {
         $this->add([
             'name' => 'samostalni_zadaci',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',         
                 'class' => 'form-control',
             ],
             'options' => [
@@ -127,8 +124,7 @@ class KursForm extends Form {
         $this->add([
             'name' => 'kolokvijum_1_poeni',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -140,25 +136,46 @@ class KursForm extends Form {
         ]);
         
         /* Datum prvojg kolokvijuma */
-        $kolokvijum1Date = new \Zend\Form\Element\Date('kolokvijum_1_datum');
-        $kolokvijum1Date->setLabel("Kolokvijum 1 Datum");
-        $kolokvijum1Date->setLabelAttributes([
-            'class' => 'col-xs-2 control-label',
+//        $kolokvijum1Date = new \Zend\Form\Element\Date('kolokvijum_1_datum');
+//        $kolokvijum1Date->setLabel("Kolokvijum 1 Datum");
+//        $kolokvijum1Date->setLabelAttributes([
+//            'class' => 'col-xs-2 control-label',
+//        ]);
+//        $kolokvijum1Date->setOptions([
+//            'min' => '2017-09-01',
+//            'max' => '2018-09-01',
+//            'step' => '1'
+//        ]);
+//        $kolokvijum1Date->setAttribute('id', 'kolokvijum_1_datum');
+//        $kolokvijum1Date->setAttribute('class', 'form-control');
+//        
+//        $kolokvijum1Date->setOptions(['required' => false]);
+//        $this->add($kolokvijum1Date);
+        
+        $this->add([
+            'name' => 'kolokvijum_1_datum',
+            'type' => 'date', 
+            'attributes' => [
+                'type' => 'date',                
+                'class' => 'form-control',
+                'id' => 'kolokvijum_1_datum',
+            ],
+            'options' => [
+                'label' => 'Datum kolokvijuma',
+                'label_attributes' => [
+                    'class' => 'col-xs-2 control-label',
+                ],
+                'min' => '2017-09-01',
+                'max' => '2018-09-01',
+                'step' => '1'
+            ]
         ]);
-        $kolokvijum1Date->setOptions([
-            'min' => '2017-09-01',
-            'max' => '2018-09-01',
-            'step' => '1'
-        ]);
-        $kolokvijum1Date->setAttribute('id', 'kolokvijum_1_datum');
-        $kolokvijum1Date->setAttribute('class', 'form-control');
         
         /* Kolokvijum 2 poeni */
         $this->add([
             'name' => 'kolokvijum_2_poeni',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -182,6 +199,8 @@ class KursForm extends Form {
         ]);
         $kolokvijum2Date->setAttribute('id', 'kolokvijum_1_datum');
         $kolokvijum2Date->setAttribute('class', 'form-control');
+        $kolokvijum2Date->setAttribute('required', false);
+        $this->add($kolokvijum2Date);
         
         /* Datum pismenog ispita */
         $pismeniDatum = new \Zend\Form\Element\Date('pismeni_datum');
@@ -196,13 +215,14 @@ class KursForm extends Form {
         ]);
         $pismeniDatum->setAttribute('id', 'pismeni_datum');
         $pismeniDatum->setAttribute('class', 'form-control');
+        $pismeniDatum->setAttribute('required', false);
+        $this->add($pismeniDatum);
         
         /* Pismeni ispit poeni */
         $this->add([
             'name' => 'pismeni_poeni',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -226,13 +246,15 @@ class KursForm extends Form {
         ]);
         $usmeniDatum->setAttribute('id', 'usmeni_datum');
         $usmeniDatum->setAttribute('class', 'form-control');
+        $usmeniDatum->setAttribute('required', false);
+        
+        $this->add($usmeniDatum);
         
         /* Usmeni ispit poeni */
         $this->add([
             'name' => 'usmeni_poeni',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -245,10 +267,9 @@ class KursForm extends Form {
         
         /* Poeni ukupno do usmenog */
         $this->add([
-            'name' => 'Poeni do usmenog',
+            'name' => 'poeni_ukupno_do_usmenog',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -261,10 +282,9 @@ class KursForm extends Form {
         
         /* Poeni zbir */
         $this->add([
-            'name' => 'Zbir poena',
+            'name' => 'poeni_zbir',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -277,10 +297,9 @@ class KursForm extends Form {
         
         /* Ocena */
         $this->add([
-            'name' => 'Ocena',
+            'name' => 'ocena',
             'attributes' => [
-                'type' => 'text',
-                'required' => 'required',
+                'type' => 'text',                
                 'class' => 'form-control',
             ],
             'options' => [
@@ -289,6 +308,34 @@ class KursForm extends Form {
                     'class' => 'col-xs-2 control-label',
                 ]
             ]
+        ]);
+        
+        /* Napomena */
+        $this->add([
+            'name' => 'napomena',
+            'attributes' => [
+                'type' => 'textarea',
+                'COLS' => 40,
+                'ROWS' => 4,
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Napomena',
+                'label_attributes' => [
+                    'class' => 'control-label col-sm-2'
+                ]
+            ]
+        ]);
+        
+        /* Submit */
+        $this->add([
+            'name' => 'submit',
+            'attributes' => [
+                'type' => 'Submit', 
+                'value' => 'Sačuvaj',
+                'id' => 'submitbutton',
+                'class' => 'ui-button form-control',
+            ],
         ]);
         
     }

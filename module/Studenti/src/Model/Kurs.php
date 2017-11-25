@@ -1,7 +1,9 @@
 <?php
 namespace Studenti\Model;
 
-class Kurs
+use Zend\InputFilter\InputFilterAwareInterface;
+
+class Kurs implements InputFilterAwareInterface
 {
     public $id;
     public $student_id;
@@ -26,6 +28,8 @@ class Kurs
     public $imeStudenta;
     public $prezimeStudenta;
     public $brojIndeksa;
+    
+    private $inputFilter;
     
     public function exchangeArray($data)
     {
@@ -82,5 +86,41 @@ class Kurs
             'brojIndeksa' => $this->brojIndeksa,
         ];
     }
+
+    public function getInputFilter() {
+        if($this->inputFilter) {
+            return $this->inputFilter;
+        }
+        
+        $this->inputFilter = new \Zend\InputFilter\InputFilter();
+        
+        $this->inputFilter->add([
+            'name' => 'kolokvijum_1_datum',
+            'required' => false,
+        ]);
+        
+        $this->inputFilter->add([
+            'name' => 'kolokvijum_2_datum',
+            'required' => false,
+        ]);
+        
+        $this->inputFilter->add([
+            'name' => 'usmeni_datum',
+            'required' => false,
+        ]);
+        
+        $this->inputFilter->add([
+            'name' => 'pismeni_datum',
+            'required' => false,
+        ]);
+        
+        
+        return $this->inputFilter;
+     }
+
+    public function setInputFilter(\Zend\InputFilter\InputFilterInterface $inputFilter) {
+        throw new \DomainException(sprintf('%s does not allow injection of alternate input filter', __CLASS__));
+    }
+
 }
 

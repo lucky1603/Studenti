@@ -15,6 +15,7 @@ use Studenti\Controller\StudentsController;
 use Studenti\Model\Kurs;
 use Studenti\Model\KursTabela;
 use Studenti\Model\StudentModel;
+use Studenti\Form\KursForm;
 
 class Module implements ConfigProviderInterface
 {
@@ -60,6 +61,10 @@ class Module implements ConfigProviderInterface
                 StudentModel::class => function($sm) {
                     return new StudentModel($sm);
                 },
+                /* Forme */
+                KursForm::class => function($sm) {
+                    return new KursForm("KursForm", ['service_manager' => $sm]);
+                }
                 
             ]  
         ];
@@ -75,6 +80,9 @@ class Module implements ConfigProviderInterface
                 StudentsController::class => function($container) {
                     return new StudentsController($container);
                 },
+                Controller\CoursesController::class => function($container) {
+                    return new Controller\CoursesController($container);
+                }
              ],
         ];
     }

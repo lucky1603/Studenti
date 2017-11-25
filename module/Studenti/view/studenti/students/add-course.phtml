@@ -1,0 +1,207 @@
+<?php
+    $title = "Dodaj predmet";
+    $this->headTitle($title);
+    var_dump($student_id);
+?>
+
+<h3><?= $this->escapeHtml($title) ?></h3>
+
+<?php 
+//    $student_id_field = $form->get('student_id');
+//    $student_id_field->setAttribute('class', 'form-control');
+//    $student_id_field->setAttribute('value', $student_id);
+//    $student_id_field->setAttribute('disabled', 'disabled');
+    
+    $subject_id = $form->get('subject_id');
+    $subject_id->setAttribute('class', 'form-control');
+    $subject_id->setAttribute('placeholder', 'Izaberi predmet...');
+    
+    $prisustvo = $form->get('prisustvo');
+    $prisustvo->setAttribute('class', 'form-control');
+    $prisustvo->setAttribute('placeholder', 'Poeni na prisustvo...');
+    
+    $broj_casova = $form->get('broj_casova');
+    $broj_casova->setAttribute('class', 'form-control');
+    $broj_casova->setAttribute('placeholder', 'Poeni na broj casova...');
+    
+    $kolokvijum_1_poeni = $form->get('kolokvijum_1_poeni');
+    $kolokvijum_1_poeni->setAttribute('class', 'form-control');
+    $kolokvijum_1_poeni->setAttribute('placeholder', 'Poeni na I kolokvijumu...');
+    
+    $kolokvijum_1_datum = $form->get('kolokvijum_1_datum');
+    $kolokvijum_1_datum->setAttribute('class', 'form-control');
+    
+    $kolokvijum_2_poeni = $form->get('kolokvijum_2_poeni');
+    $kolokvijum_2_poeni->setAttribute('class', 'form-control');
+    $kolokvijum_2_poeni->setAttribute('placeholder', 'Poeni na II kolokvijumu...');
+    
+    $kolokvijum_2_datum = $form->get('kolokvijum_2_datum');
+    $kolokvijum_2_datum->setAttribute('class', 'form-control');
+    
+    $pismeni_datum = $form->get('pismeni_datum');
+    $pismeni_datum->setAttribute('class', 'form-control');
+    
+    $pismeni_poeni = $form->get('pismeni_poeni');
+    $pismeni_poeni->setAttribute('class', 'form-control');
+    $pismeni_poeni->setAttribute('placeholder', 'Poeni na pismenom ...');
+    
+    $usmeni_datum = $form->get('usmeni_datum');
+    $usmeni_datum->setAttribute('class', 'form-control');
+    
+    $usmeni_poeni = $form->get('usmeni_poeni');
+    $usmeni_poeni->setAttribute('class', 'form-control');
+    $usmeni_poeni->setAttribute('placeholder', 'Poeni na usmenom ...');
+    
+    $poeni_ukupno_do_usmenog = $form->get('poeni_ukupno_do_usmenog');
+    $poeni_ukupno_do_usmenog->setAttribute('class', 'form-control');
+    $poeni_ukupno_do_usmenog->setAttribute('placeholder', 'Poeni ukupno do usmenog ...');
+    
+    $poeni_zbir = $form->get('poeni_zbir');
+    $poeni_zbir->setAttribute('class', 'form-control');
+    $poeni_zbir->setAttribute('placeholder', 'Zbir poena ...');
+    
+    $ocena = $form->get('ocena');
+    $ocena->setAttribute('class', 'form-control');
+    $ocena->setAttribute('placeholder', 'Ocena ...');
+    
+    $napomena = $form->get('napomena');
+    $napomena->setAttribute('class', 'form-control');
+    $napomena->setAttribute('placeholder', 'Napomena ...');
+    
+    $submit = $form->get('submit');
+    $submit->setAttribute('class', 'btn btn-primary');
+    
+    $form->setAttribute('action', $this->url('studenti', ['action' => 'addCourse']));
+    
+    $form->prepare();
+    
+    echo $this->form()->openTag($form);
+    echo $this->formHidden($form->get('id'));
+?>
+
+
+
+<div class='form-group'>
+    <?php echo $this->formLabel($subject_id) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($subject_id);?>
+        <?php echo $this->formElementErrors()->render($subject_id, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($prisustvo) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($prisustvo);?>
+        <?php echo $this->formElementErrors()->render($prisustvo, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($broj_casova) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($broj_casova);?>
+        <?php echo $this->formElementErrors()->render($broj_casova, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($kolokvijum_1_poeni) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($kolokvijum_1_poeni);?>
+        <?php echo $this->formElementErrors()->render($kolokvijum_1_poeni, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($kolokvijum_1_datum) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($kolokvijum_1_datum);?>
+        <?php echo $this->formElementErrors()->render($kolokvijum_1_datum, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($kolokvijum_2_poeni) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($kolokvijum_2_poeni);?>
+        <?php echo $this->formElementErrors()->render($kolokvijum_2_poeni, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($kolokvijum_2_datum) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($kolokvijum_2_datum);?>
+        <?php echo $this->formElementErrors()->render($kolokvijum_2_datum, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($pismeni_datum) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($pismeni_datum);?>
+        <?php echo $this->formElementErrors()->render($pismeni_datum, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($pismeni_poeni) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($pismeni_poeni);?>
+        <?php echo $this->formElementErrors()->render($pismeni_poeni, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($usmeni_datum) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($usmeni_datum);?>
+        <?php echo $this->formElementErrors()->render($usmeni_datum, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($usmeni_poeni) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($usmeni_poeni);?>
+        <?php echo $this->formElementErrors()->render($usmeni_poeni, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($poeni_ukupno_do_usmenog) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($poeni_ukupno_do_usmenog);?>
+        <?php echo $this->formElementErrors()->render($poeni_ukupno_do_usmenog, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($poeni_zbir) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($poeni_zbir);?>
+        <?php echo $this->formElementErrors()->render($poeni_zbir, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($ocena) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($ocena);?>
+        <?php echo $this->formElementErrors()->render($ocena, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<div class='form-group'>
+    <?php echo $this->formLabel($napomena) ?>
+    <div class='col-xs-4'>
+        <?php echo $this->formElement($poeni_ukupno_do_usmenog);?>
+        <?php echo $this->formElementErrors()->render($poeni_ukupno_do_usmenog, ['class' => 'help-block']) ?>
+    </div>
+</div>
+
+<?php
+    echo $this->formSubmit($submit);
+    $this->form()->closeTag();
+?>

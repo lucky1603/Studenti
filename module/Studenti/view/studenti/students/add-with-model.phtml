@@ -7,6 +7,7 @@ $courses = $model->kursevi;
 <h3><?php echo $this->escapehtml($title) ?></h3>
 
 <?php 
+
     $ime = $form->get('ime');
     $ime->setAttribute('class', 'form-control');
     $ime->setAttribute('placeholder', 'Ime ...');
@@ -31,7 +32,7 @@ $courses = $model->kursevi;
     $submit->setAttribute('class', 'btn btn-primary');
     
     if(isset($id))
-        $form->setAttribute('action', $this->url('studenti', ['action' => 'editWidthModel', 'id' => $id]));
+        $form->setAttribute('action', $this->url('studenti', ['action' => 'editWithModel', 'id' => $id]));
     else 
         $form->setAttribute('action', $this->url('studenti', ['action' => 'addWithModel']));
     
@@ -120,7 +121,7 @@ $courses = $model->kursevi;
 		<?php else:?>
 			<p>Trenutno nema predmeta na kojima je student upisan.</p>
 		<?php endif; ?>
-		<a href="#" class="btn btn-default">Dodati novi predmet</a>
+		<a href="<?= $this->url("studenti", ["action" => "addCourse", "id" => $id]) ?>" class="btn btn-default">Dodati novi predmet</a>
 	</div>
 </div>
 

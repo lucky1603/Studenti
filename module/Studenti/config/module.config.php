@@ -41,6 +41,20 @@ return [
                         'action' => 'index',
                     ]
                 ]
+            ],
+            'kursevi' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/courses[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => CoursesController::class,
+                        'action' => 'index',
+                    ]
+                ]
             ]
         ]
     ],

@@ -9,6 +9,7 @@ use Studenti\Model\Student;
 use Zend\View\Model\ViewModel;
 use Studenti\Model\StudentModel;
 use Zend\Session\Container;
+use Studenti\Form\KursForm;
 
 class StudentsController extends AbstractActionController
 {
@@ -247,7 +248,42 @@ class StudentsController extends AbstractActionController
     
     public function addCourseAction()
     {
+        $student_id = (int) $this->params()->fromRoute('id');
+        $form = $this->serviceManager->get(KursForm::class);
+        $request = $this->getRequest();
+        if(! $request->isPost())
+        {
+            return [
+                'form' => $form,
+                'student_id' => $student_id,
+            ];
+        }
         
+        $kurs = new \Studenti\Model\Kurs();
+        $form->bind($kurs);
+        $data = $request->getPost();
+        $form->setData($data);
+        if(! $form->isValid())
+        {
+            \Zend\Debug\Debug::dump($form->getMessages());
+            return [
+                'form' => $form,
+                'student_id' => $student_id,
+            ];
+        }
+        
+        $studentModel = $this->serviceManager->get(StudentModel::class);
+        $session = new Container('models');
+        $studentModel->exchangeArray($session->studentModelData);
+        $studentModel->kursevi[] = $kurs;
+        $session->studentModelData = $studentModel->getArrayCopy();
+        
+        if(isset($studentModel->student->id) && $studentModel->student->id != 0 )
+        {
+            return $this->redirect()->toUrl('/students/editWithModel/'.$studentsModel->student->id.'#tab2');
+        }
+        
+        return $this->redirect()->toUrl('/students/addWithModel/#tab2');
     }
 }
 
