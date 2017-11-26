@@ -65,14 +65,14 @@ class KursForm extends Form {
         }
         
         /* Init 'select students' element */
-        $selectSubject = new Select('subject_id');
-        $selectSubject->setLabel("Subject");
+        $selectSubject = new Select('predmet_id');
+        $selectSubject->setLabel("Predmet");
         $selectSubject->setLabelAttributes([
             'class' => 'col-xs-2 control-label',
         ]);
         $selectSubject->setValueOptions($subjectOptions);
         $selectSubject->setAttribute('class', 'form-control');
-        $selectSubject->setAttribute('id', 'subject_id');
+        $selectSubject->setAttribute('id', 'predmet_id');
         $this->add($selectSubject);
         
         /* Prisustvo */

@@ -102,21 +102,26 @@ $courses = $model->kursevi;
 	<div id="tab2">
 		<?php if(count($courses) > 0): ?>
 			<table class="table">
-				<thead>
-					<tr>
-						<th>Predmet</th>
-						<th>Predmetni profesor</th>
-						<th>Akcija</th>
-					</tr>
-				</thead>
-				<tbody>
-			    <?php foreach($courses as $course): ?>
-					<tr>
-						<td><?php echo $course->imePredmeta ?></td>
-						<td><?php echo $course->imeProfesora ?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+                            <thead>
+                                    <tr>
+                                        <th>Sifra predmeta</th>
+                                        <th>Predmet</th>
+                                        <th>Predmetni profesor</th>
+                                        <th>Akcija</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                <?php $counter = 1 ?>
+                                <?php foreach($courses as $course): ?>
+                                    <tr>
+                                        <td><?= $course->sifraPredmeta ?></td>
+                                        <td><?php echo $course->imePredmeta ?></td>
+                                        <td><?php echo $course->imeProfesora ?></td>
+                                        <td><a href="<?php echo $this->url('studenti', ['action' => 'editCourse', 'id' => $counter ])?>" class="btn btn-default">Promeni podatke</a></td>
+                                    </tr>
+                                    <?php $counter ++; ?>
+                                <?php endforeach; ?>
+                            </tbody>
 			</table>
 		<?php else:?>
 			<p>Trenutno nema predmeta na kojima je student upisan.</p>
@@ -124,11 +129,12 @@ $courses = $model->kursevi;
 		<a href="<?= $this->url("studenti", ["action" => "addCourse", "id" => $id]) ?>" class="btn btn-default">Dodati novi predmet</a>
 	</div>
 </div>
-
+<div class="jumbotron">
 <?php 
     echo $this->formSubmit($submit);
 ?>
 <a href="<?php echo $this->url('studenti')?>" class="btn btn-default" style="margin-left: 20px">Nazad</a>
+</div>
 <?php 
     echo $this->form()->closeTag();    
 ?>

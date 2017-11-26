@@ -28,6 +28,7 @@ class Kurs implements InputFilterAwareInterface
     public $imeStudenta;
     public $prezimeStudenta;
     public $brojIndeksa;
+    public $sifraPredmeta;
     
     private $inputFilter;
     
@@ -57,6 +58,7 @@ class Kurs implements InputFilterAwareInterface
         $this->imeStudenta = isset($data['imeStudenta']) ? $data['imeStudenta'] : null;
         $this->prezimeStudenta = isset($data['prezimeStudenta']) ? $data['prezimeStudenta'] : null;
         $this->brojIndeksa = isset($data['brojIndeksa']) ? $data['brojIndeksa'] : null;
+        $this->sifraPredmeta = isset($data['sifraPredmeta']) ? $data['sifraPredmeta'] : null;
     }
     
     public function getArrayCopy()
@@ -84,6 +86,7 @@ class Kurs implements InputFilterAwareInterface
             'imeStudenta' => $this->imeStudenta,
             'prezimeStudenta' => $this->prezimeStudenta,
             'brojIndeksa' => $this->brojIndeksa,
+            'sifraPredmeta' => $this->sifraPredmeta,
         ];
     }
 

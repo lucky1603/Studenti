@@ -14,6 +14,7 @@ class StudentModel
     private $serviceManager;
     private $adapter;
     private $predmeti;
+    private $tabelaPredmeti;
     
     public function __construct(ServiceManager $manager)
     {
@@ -21,6 +22,7 @@ class StudentModel
         $this->adapter = $this->serviceManager->get(Adapter::class);
         $this->student = new Student();
         $this->kursevi = array();
+        $this->tabelaPredmeti = new TableGateway('predmeti', $this->adapter);
     }
     
     public function exchangeArray($data)
@@ -41,10 +43,13 @@ class StudentModel
     public function getArrayCopy() 
     {   
         $data = $this->student->getArrayCopy();
-        foreach ($this->kursevi as $kurs)
-        {
-            $data['kursevi'][] = $kurs->getArrayCopy();
+        if(isset($this->kursevi) && count($this->kursevi) > 0) {
+            foreach ($this->kursevi as $kurs)
+            {
+                $data['kursevi'][] = $kurs->getArrayCopy();
+            } 
         }
+        return $data;
     }
     
     public function setId($id)
@@ -62,8 +67,8 @@ class StudentModel
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->from('kursevi')
-                ->join(['p' => 'predmeti'], 'predmet_id = p.id', ['imePredmeta' => 'ime', 'imeProfesora' => 'profesor'])
-                ->join(['s' => 'studenti'], 'student_id = s.id', ['imeStudenta' => "ime", 'prezimeStudenta' => "prezime"])
+                ->join(['p' => 'predmeti'], 'predmet_id = p.id', ['imePredmeta' => 'ime', 'imeProfesora' => 'profesor', 'sifraPredmeta' => 'sifra'])
+                ->join(['s' => 'studenti'], 'student_id = s.id', ['imeStudenta' => "ime", 'prezimeStudenta' => "prezime", 'brojIndeksa' => 'broj_indeksa'])
                 ->where(['student_id' => $id]);
         $statement = $sql->prepareStatementForSqlObject($select);
         $rows = $statement->execute();
@@ -102,6 +107,17 @@ class StudentModel
         
         $this->student = new Student();
         $this->kursevi = [];
+    }
+    
+    public function addCourse(Kurs $kurs)
+    {
+        $predmet_id = $kurs->predmet_id;
+        $rows = $this->tabelaPredmeti->select(['id' => $predmet_id]);
+        $row = $rows->current();
+        $kurs->imePredmeta = $row['ime'];
+        $kurs->sifraPredmeta = $row['sifra'];
+        $kurs->imeProfesora = $row['profesor'];
+        $this->kursevi[] = $kurs;
     }
 }
 

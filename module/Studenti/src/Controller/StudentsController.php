@@ -167,6 +167,7 @@ class StudentsController extends AbstractActionController
         }
         
         $studentModel = $this->serviceManager->get(StudentModel::class);
+        
         $session = new Container('models');
         if(isset($session->studentModelData))
         {
@@ -174,10 +175,13 @@ class StudentsController extends AbstractActionController
             if($studentModel->student->id != $id)
             {
                 $studentModel->setId($id);
+                $session->studentModelData = $studentModel->getArrayCopy();
             }
         } else {
             $studentModel->setId($id);
+            $session->studentModelData = $studentModel->getArrayCopy();
         }
+        
         
         $imgDir = getcwd() . '/public';
         $form = new StudentsForm();
@@ -275,7 +279,7 @@ class StudentsController extends AbstractActionController
         $studentModel = $this->serviceManager->get(StudentModel::class);
         $session = new Container('models');
         $studentModel->exchangeArray($session->studentModelData);
-        $studentModel->kursevi[] = $kurs;
+        $studentModel->addCourse($kurs);
         $session->studentModelData = $studentModel->getArrayCopy();
         
         if(isset($studentModel->student->id) && $studentModel->student->id != 0 )
@@ -284,6 +288,52 @@ class StudentsController extends AbstractActionController
         }
         
         return $this->redirect()->toUrl('/students/addWithModel/#tab2');
+    }
+    
+    public function editCourseAction()
+    {
+        $studentModel = $this->serviceManager->get(StudentModel::class);
+        $session = new Container('models');
+        $studentModel->exchangeArray($session->studentModelData);
+        
+
+        
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if(0 == $id)
+        {
+            return $this->redirect()->toRoute('studenti', ['action' => 'addCourse', 'id' => $studentModel->student->id]);
+        }
+                
+        $kurs = $studentModel->kursevi[$id - 1];
+        $form = $this->serviceManager->get(KursForm::class);
+        $form->bind($kurs);
+        
+        $request = $this->getRequest();
+        $viewData = ['id' => $id, 'student_id' => $studentModel->student->id, 'form' => $form, 'kurs' => $kurs];
+        $viewModel = new ViewModel($viewData);
+        $viewModel->setTemplate('/studenti/students/add-course');
+        if(! $request->isPost())
+        {
+            return $viewModel;
+        }
+        
+
+        $form->setData($request->getPost());
+        if(! $form->isValid())
+        {
+            \Zend\Debug\Debug::dump($form->getMessages());
+            return [
+                'id' => $id,
+                'student_id' => $studentModel->student->id,
+                'form' => $form,
+                'kurs' => $kurs,
+            ];
+        }
+    
+        //$studentModel->kursevi[$id-1] = $kurs;
+        $session->studentModelData = $studentModel->getArrayCopy();
+        
+        return $this->redirect()->toUrl('/students/editWithModel/'.$studentModel->student->id.'#tab2');
     }
 }
 

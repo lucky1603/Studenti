@@ -1,7 +1,6 @@
 <?php
     $title = "Dodaj predmet";
     $this->headTitle($title);
-    var_dump($student_id);
 ?>
 
 <h3><?= $this->escapeHtml($title) ?></h3>
@@ -12,7 +11,7 @@
 //    $student_id_field->setAttribute('value', $student_id);
 //    $student_id_field->setAttribute('disabled', 'disabled');
     
-    $subject_id = $form->get('subject_id');
+    $subject_id = $form->get('predmet_id');
     $subject_id->setAttribute('class', 'form-control');
     $subject_id->setAttribute('placeholder', 'Izaberi predmet...');
     
@@ -71,7 +70,13 @@
     $submit = $form->get('submit');
     $submit->setAttribute('class', 'btn btn-primary');
     
-    $form->setAttribute('action', $this->url('studenti', ['action' => 'addCourse']));
+    if(isset($id))
+    {
+        $form->setAttribute('action', $this->url('studenti', ['action' => 'editCourse', 'id' => $id]));
+    } else {
+        $form->setAttribute('action', $this->url('studenti', ['action' => 'addCourse']));
+    }
+    
     
     $form->prepare();
     
