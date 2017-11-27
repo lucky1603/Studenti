@@ -77,6 +77,7 @@ class StudentsController extends AbstractActionController
         $session = new Container('models');
         if(isset($session->studentModelData)) {
             $studentModel->exchangeArray($session->studentModelData);
+            $form->bind($studentModel->student);
         }
         
         $request = $this->getRequest();
@@ -86,10 +87,14 @@ class StudentsController extends AbstractActionController
         }
         
         $data = $request->getPost();
-        
-        $file = $this->params()->fromFiles('image');
-        $data['image']  = '/img/studenti/'.$file['name'];
-        
+        $file = $this->params()->fromFiles('photo');
+
+        if($file != null && !empty($file['name']))
+        {
+           $data['image']  = '/img/studenti/'.$file['name']; 
+           copy($file['tmp_name'], $imgDir.$data['image']);
+        }
+       
         $form->bind($studentModel->student);
         $form->setData($data);
         if(! $form->isValid())
@@ -97,7 +102,10 @@ class StudentsController extends AbstractActionController
             return ['form' => $form, 'model' => $studentModel];
         }
         
-        copy($file['tmp_name'], $imgDir.$data['image']);
+        if(isset($data['image']) && !empty($data['image'])) {            
+            $studentModel->student->image = $data['image'];
+        } 
+        
         $studentModel->save();
         unset($session->studentModelData);
         
@@ -181,15 +189,13 @@ class StudentsController extends AbstractActionController
             $studentModel->setId($id);
             $session->studentModelData = $studentModel->getArrayCopy();
         }
-        
-        
+                        
         $imgDir = getcwd() . '/public';
         $form = new StudentsForm();
-        
-        $photo = $studentModel->student->image;
+       
         $form->bind($studentModel->student);
         $request = $this->getRequest();
-        $viewData = ['id' => $id, 'form' => $form, 'photo' => $photo, 'model' => $studentModel];
+        $viewData = ['id' => $id, 'form' => $form, 'model' => $studentModel];
         $viewModel = new ViewModel($viewData);
         $viewModel->setTemplate('/studenti/students/add-with-model');
         if(! $request->isPost())
@@ -199,10 +205,11 @@ class StudentsController extends AbstractActionController
         
         $data = $request->getPost();
         
-        $file = $this->params()->fromFiles('image');
+        $file = $this->params()->fromFiles('photo');
+        
         if(! empty($file['name']) && $file['name'] != "")
         {
-            $data['image']  = '/img/studenti/'.$file['name'];
+            $data['photo']  = '/img/studenti/'.$file['name'];
         }
         
         $form->setData($request->getPost());
@@ -212,7 +219,11 @@ class StudentsController extends AbstractActionController
         }
         
         if(! empty($file['name']) && $file['name'] != null) {
-            copy($file['tmp_name'], $imgDir.$data['image']);
+            copy($file['tmp_name'], $imgDir.$data['photo']);
+        }
+        
+        if(isset($data['photo'])) {
+            $studentModel->student->image = $data['photo'];
         }
         
         $studentModel->save();
@@ -252,14 +263,12 @@ class StudentsController extends AbstractActionController
     
     public function addCourseAction()
     {
-        $student_id = (int) $this->params()->fromRoute('id');
         $form = $this->serviceManager->get(KursForm::class);
         $request = $this->getRequest();
         if(! $request->isPost())
         {
             return [
                 'form' => $form,
-                'student_id' => $student_id,
             ];
         }
         
@@ -272,19 +281,20 @@ class StudentsController extends AbstractActionController
             \Zend\Debug\Debug::dump($form->getMessages());
             return [
                 'form' => $form,
-                'student_id' => $student_id,
             ];
         }
         
         $studentModel = $this->serviceManager->get(StudentModel::class);
         $session = new Container('models');
         $studentModel->exchangeArray($session->studentModelData);
+
+       
         $studentModel->addCourse($kurs);
         $session->studentModelData = $studentModel->getArrayCopy();
         
         if(isset($studentModel->student->id) && $studentModel->student->id != 0 )
         {
-            return $this->redirect()->toUrl('/students/editWithModel/'.$studentsModel->student->id.'#tab2');
+            return $this->redirect()->toUrl('/students/editWithModel/'.$studentModel->student->id.'#tab2');
         }
         
         return $this->redirect()->toUrl('/students/addWithModel/#tab2');
@@ -296,12 +306,10 @@ class StudentsController extends AbstractActionController
         $session = new Container('models');
         $studentModel->exchangeArray($session->studentModelData);
         
-
-        
         $id = (int) $this->params()->fromRoute('id', 0);
         if(0 == $id)
         {
-            return $this->redirect()->toRoute('studenti', ['action' => 'addCourse', 'id' => $studentModel->student->id]);
+            return $this->redirect()->toRoute('studenti', ['action' => 'addCourse']);
         }
                 
         $kurs = $studentModel->kursevi[$id - 1];
@@ -317,7 +325,6 @@ class StudentsController extends AbstractActionController
             return $viewModel;
         }
         
-
         $form->setData($request->getPost());
         if(! $form->isValid())
         {

@@ -52,26 +52,26 @@ class KursTabela
             'broj_casova' => $kurs->broj_casova,
             'samostalni_zadaci' => $kurs->samostalni_zadaci,
             'kolokvijum_1_poeni' => $kurs->kolokvijum_1_poeni,
-            'kolokvijum_1_datum' => $kurs->kolokvijum_1_datum,
             'kolokvijum_2_poeni' => $kurs->kolokvijum_2_poeni,
+            'kolokvijum_1_datum' => $kurs->kolokvijum_1_datum,            
             'kolokvijum_2_datum' => $kurs->kolokvijum_2_datum,
             'pismeni_datum' => $kurs->pismeni_datum,
             'pismeni_poeni' => $kurs->pismeni_poeni,
             'usmeni_datum' => $kurs->usmeni_datum,
+            'usmeni_poeni' => $kurs->usmeni_poeni,
             'poeni_ukupno_do_usmenog' => $kurs->poeni_ukupno_do_usmenog,
             'poeni_zbir' => $kurs->poeni_zbir,
             'ocena' => $kurs->ocena,
             'napomene' => $kurs->napomene, 
         ];
-        
-        if(! isset($kurs->id))
+                            
+        if(empty($kurs->id))
         {
             $this->tableGateway->insert($data);
         } else {
             $this->tableGateway->update($data, ['id' => $kurs->id]);
-        }        
+        }                            
     }
-    
     /**
      * Deletes the kurs element from the database.
      * @param unknown $id

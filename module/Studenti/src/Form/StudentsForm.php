@@ -73,7 +73,7 @@ class StudentsForm extends Form
         $this->add($email);
         
         // Single file upload
-        $image = new Element\File('image');
+        $image = new Element\File('photo');
         $image->setLabel('Izaberite sliku');
         $image->setLabelAttributes([
             'class' => 'control-label col-xs-2',

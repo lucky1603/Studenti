@@ -16,6 +16,7 @@ use Studenti\Model\Kurs;
 use Studenti\Model\KursTabela;
 use Studenti\Model\StudentModel;
 use Studenti\Form\KursForm;
+use Studenti\Controller\AjaxController;
 
 class Module implements ConfigProviderInterface
 {
@@ -82,7 +83,10 @@ class Module implements ConfigProviderInterface
                 },
                 Controller\CoursesController::class => function($container) {
                     return new Controller\CoursesController($container);
-                }
+                },
+                AjaxController::class => function($container) {
+                    return new AjaxController($container);
+                }, 
              ],
         ];
     }

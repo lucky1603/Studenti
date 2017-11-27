@@ -83,14 +83,20 @@ class StudentModel
     }
     
     public function save()
-    {
+    {        
         $studentsTable = $this->serviceManager->get(StudentsTable::class);
         $student_id = $studentsTable->saveStudent($this->student);
         
         $kurseviTabela = $this->serviceManager->get(KursTabela::class);
         foreach($this->kursevi as $kurs)
         {
+            
+            if($kurs->student_id == null) {
+                $kurs->student_id = $student_id;
+            }
+            
             $kurseviTabela->saveKurs($kurs);
+            
         }
     }
     

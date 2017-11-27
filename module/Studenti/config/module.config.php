@@ -5,6 +5,7 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 use Studenti\Controller\StudentsController;
 use Zend\Router\Http\Segment;
 use Studenti\Controller\SubjectsController;
+use Studenti\Controller\AjaxController;
 
 return [
     'controllers' => [
@@ -55,7 +56,21 @@ return [
                         'action' => 'index',
                     ]
                 ]
-            ]
+            ],
+            'ajax' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/ajax[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => AjaxController::class,
+                        'action' => 'some',
+                    ]
+                ],
+            ],
         ]
     ],
     'view_manager' => [

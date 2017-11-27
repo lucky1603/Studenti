@@ -47,7 +47,7 @@ class StudentsTable
         {
             $this->tableGateway->insert($data);
             $rows = $this->tableGateway->getAdapter()->query('SELECT max(id) FROM studenti')->execute();
-            return $rows->current()["max"];
+            return $rows->current()["max(id)"];
         } else {
             $this->tableGateway->update($data, ['id' => $id]);
             return $id;
