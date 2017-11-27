@@ -167,14 +167,8 @@ $(document).ready(function() {
         var href = $(element).attr('href');       
         var decision = <?= json_encode(isset($id)) ?>;
         console.log('Decision is ' + decision);
-        if(decision == false) {
-            //var formData = $('form').serialize();
-            //var fileData = new FormData($('input#imgUpload'));
+        if($('input#imgUpload').val() != '') {
             var formData = new FormData($('form')[0]);
-            //formData = formData + fileData;
-//            var fileData = $('input#imgUpload').serializeArray();
-//            var formData = $('form').serializeArray().concat(fileData);
-//            formData = $.param(formData);
             console.log(formData);      
             
             $.ajax({
