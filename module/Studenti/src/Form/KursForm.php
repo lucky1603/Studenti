@@ -136,40 +136,40 @@ class KursForm extends Form {
         ]);
         
         /* Datum prvojg kolokvijuma */
-//        $kolokvijum1Date = new \Zend\Form\Element\Date('kolokvijum_1_datum');
-//        $kolokvijum1Date->setLabel("Kolokvijum 1 Datum");
-//        $kolokvijum1Date->setLabelAttributes([
-//            'class' => 'col-xs-2 control-label',
-//        ]);
-//        $kolokvijum1Date->setOptions([
-//            'min' => '2017-09-01',
-//            'max' => '2018-09-01',
-//            'step' => '1'
-//        ]);
-//        $kolokvijum1Date->setAttribute('id', 'kolokvijum_1_datum');
-//        $kolokvijum1Date->setAttribute('class', 'form-control');
-//        
-//        $kolokvijum1Date->setOptions(['required' => false]);
-//        $this->add($kolokvijum1Date);
-        
-        $this->add([
-            'name' => 'kolokvijum_1_datum',
-            'type' => 'date', 
-            'attributes' => [
-                'type' => 'date',                
-                'class' => 'form-control',
-                'id' => 'kolokvijum_1_datum',
-            ],
-            'options' => [
-                'label' => 'Datum kolokvijuma',
-                'label_attributes' => [
-                    'class' => 'col-xs-2 control-label',
-                ],
-                'min' => '2017-09-01',
-                'max' => '2018-09-01',
-                'step' => '1'
-            ]
+        $kolokvijum1Date = new \Zend\Form\Element\Date('kolokvijum_1_datum');
+        $kolokvijum1Date->setLabel("Kolokvijum 1 Datum");
+        $kolokvijum1Date->setLabelAttributes([
+            'class' => 'col-xs-2 control-label',
         ]);
+        $kolokvijum1Date->setOptions([
+            'min' => '2017-09-01',
+            'max' => '2018-09-01',
+            'step' => '1'
+        ]);
+        $kolokvijum1Date->setAttribute('id', 'kolokvijum_1_datum');
+        $kolokvijum1Date->setAttribute('class', 'form-control');
+        
+        $kolokvijum1Date->setOptions(['required' => false]);
+        $this->add($kolokvijum1Date);
+        
+//        $this->add([
+//            'name' => 'kolokvijum_1_datum',
+//            'type' => 'date', 
+//            'attributes' => [
+//                'type' => 'date',                
+//                'class' => 'form-control',
+//                'id' => 'kolokvijum_1_datum',
+//            ],
+//            'options' => [
+//                'label' => 'Datum kolokvijuma',
+//                'label_attributes' => [
+//                    'class' => 'col-xs-2 control-label',
+//                ],
+//                'min' => '2017-09-01',
+//                'max' => '2018-09-01',
+//                'step' => '1'
+//            ]
+//        ]);
         
         /* Kolokvijum 2 poeni */
         $this->add([

@@ -6,11 +6,6 @@
 <h3><?= $this->escapeHtml($title) ?></h3>
 
 <?php 
-//    $student_id_field = $form->get('student_id');
-//    $student_id_field->setAttribute('class', 'form-control');
-//    $student_id_field->setAttribute('value', $student_id);
-//    $student_id_field->setAttribute('disabled', 'disabled');
-    
     $subject_id = $form->get('predmet_id');
     $subject_id->setAttribute('class', 'form-control');
     $subject_id->setAttribute('placeholder', 'Izaberi predmet...');
@@ -206,7 +201,20 @@
     </div>
 </div>
 
-<?php
-    echo $this->formSubmit($submit);
+<div class='form-group'>
+    <div class='col-xs-offset-2 col-xs-4'>
+        <?php
+            echo $this->formSubmit($submit);
+            if(isset($model->student->id) && !empty($model->student->id))
+            {
+                $url = '/students/editWithModel/'.$model->student->id.'#tab2';
+            } else {
+                $url = '/students/addWithModel/#tab2';
+            }
+        ?>
+        <a href="<?php echo $url?>" class="btn btn-default">Nazad</a>
+    </div>
+</div>
+<?php 
     $this->form()->closeTag();
 ?>

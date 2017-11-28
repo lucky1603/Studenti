@@ -263,12 +263,17 @@ class StudentsController extends AbstractActionController
     
     public function addCourseAction()
     {
+        $studentModel = $this->serviceManager->get(StudentModel::class);
+        $session = new Container('models');
+        $studentModel->exchangeArray($session->studentModelData);
+        
         $form = $this->serviceManager->get(KursForm::class);
         $request = $this->getRequest();
         if(! $request->isPost())
         {
             return [
                 'form' => $form,
+                'model' => $studentModel,
             ];
         }
         
@@ -281,14 +286,10 @@ class StudentsController extends AbstractActionController
             \Zend\Debug\Debug::dump($form->getMessages());
             return [
                 'form' => $form,
+                'model' => $studentModel,
             ];
         }
-        
-        $studentModel = $this->serviceManager->get(StudentModel::class);
-        $session = new Container('models');
-        $studentModel->exchangeArray($session->studentModelData);
-
-       
+               
         $studentModel->addCourse($kurs);
         $session->studentModelData = $studentModel->getArrayCopy();
         
@@ -317,7 +318,7 @@ class StudentsController extends AbstractActionController
         $form->bind($kurs);
         
         $request = $this->getRequest();
-        $viewData = ['id' => $id, 'student_id' => $studentModel->student->id, 'form' => $form, 'kurs' => $kurs];
+        $viewData = ['id' => $id, 'model' => $studentModel, 'form' => $form, 'kurs' => $kurs];
         $viewModel = new ViewModel($viewData);
         $viewModel->setTemplate('/studenti/students/add-course');
         if(! $request->isPost())
@@ -329,12 +330,7 @@ class StudentsController extends AbstractActionController
         if(! $form->isValid())
         {
             \Zend\Debug\Debug::dump($form->getMessages());
-            return [
-                'id' => $id,
-                'student_id' => $studentModel->student->id,
-                'form' => $form,
-                'kurs' => $kurs,
-            ];
+            return $viewModel;
         }
     
         //$studentModel->kursevi[$id-1] = $kurs;
